@@ -4,8 +4,8 @@
 
 
 from numpy import *
-import matplotlib.pyplot as plt
-import timeit
+
+import scipy.stats as ss
 
 
 #Step 1: Determine the best and worst values of all criterion
@@ -44,4 +44,22 @@ def S_and_R(matrix, best_worst_fij, weights):
         s[i] = round(k, 3)
     return s, r
 
-#Step 3
+#Step 3: Compute the value Q
+
+def Q(s, r, n):
+
+    q = zeros(s.shape[0])
+  #  y = ((n + 1) / (2 * n))
+    y = 0.5
+    for i in range(s.shape[0]):
+        q[i] = round((y * (s[i] - min(s)) / (max(s) - min(s)) +
+                 (1 - y) * (r[i] - min(r)) / (max(r) - min(r))), 3)
+    return q
+
+def vikor_ranking(matrix, min_max_criteria, weights):
+
+    s, r = S_and_R(matrix,best_worst_f(matrix,min_max_criteria), weights)
+    q = Q(s, r, len(weights))
+    rank = ss.rankdata(-1*q)
+
+    return rank, q
