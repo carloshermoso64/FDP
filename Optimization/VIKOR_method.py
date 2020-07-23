@@ -1,4 +1,4 @@
-# Filename: VIKOR_method
+# Filename: VIKOR_method.py
 # Author: Carlos Hermoso
 # References: J.R. San Cristóbal, Papathanasiou, J. & Ploskas, N.
 
@@ -61,5 +61,37 @@ def vikor_ranking(matrix, min_max_criteria, weights):
     s, r = S_and_R(matrix,best_worst_f(matrix,min_max_criteria), weights)
     q = Q(s, r, len(weights))
     rank = ss.rankdata(-1*q)
+    result = []
+    indx = []
+    for i,item in enumerate(rank):
+        dec,integer = math.modf(item)
+        if (dec > 0.0):
+            result.append(int(integer))
+            indx.append(i)
+    if result:
+        j = 0
+        while j < len(result):
+            k = j+1
+            found = False
+            while k < len(result) and not found:
+                if result[k] == result[j]:
+                    found=True
+                else:
+                    k = k+1
+            if k != len(result):
+                best,worst = comparar(matrix, indx[j], indx[k], weights)
+                rank[best] = rank[best]+0.5
+                rank[worst] = rank[worst]-0.5
+            j = j+1
 
-    return rank, q
+
+
+    return rank, q, result, indx
+
+
+def comparar(matrix, a, b, weights):
+    i = matrix[a][maxpos]
+    best = 3
+    worst = 11
+    return best,worst
+
