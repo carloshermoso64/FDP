@@ -3,10 +3,6 @@
 
 
 
-from numpy import *
-import matplotlib.pyplot as plt
-import timeit
-from Optimization import VIKOR_method
 
 # performances of the alternatives
 from Optimization.VIKOR_method import *
@@ -33,6 +29,6 @@ w = array([0.32, 0.09, 0.03, 0.12, 0.13, 0.04, 0.27])
 crit_max_min = array(['max', 'min', 'min', 'max', 'max', 'min', 'max'])
 
 
-n= vikor_ranking(x,crit_max_min,w)
+n = vikor_ranking(x,crit_max_min,w)
 
 print (n)
