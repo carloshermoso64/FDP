@@ -54,13 +54,15 @@ def Q(s, r, n):
                  (1 - y) * (r[i] - min(r)) / (max(r) - min(r))), 3)
     return q
 
+#Step 4: Rank the alternatives of the matrix
+
 def vikor_ranking(matrix, min_max_criteria, weights):
 
     s, r = S_and_R(matrix,best_worst_f(matrix,min_max_criteria), weights)
     q = Q(s, r, len(weights))
     rank = ss.rankdata(-1*q)
     rank = tie_brake(rank, weights, matrix) #look for alternatives with same value of q
-    return rank, q
+    return rank
 
 def tie_brake(rank, weights, matrix):
 
@@ -82,7 +84,7 @@ def tie_brake(rank, weights, matrix):
                 else:
                     k = k+1
             if k != len(result):
-                best,worst = comparar(matrix, indx[j], indx[k], weights)
+                best,worst = compare(matrix, indx[j], indx[k], weights)
                 rank[best] = rank[best]+0.5
                 rank[worst] = rank[worst]-0.5
             j = j+1
@@ -92,7 +94,7 @@ def tie_brake(rank, weights, matrix):
 
 
 
-def comparar(matrix, a, b, weights):
+def compare(matrix, a, b, weights):
 
     maxweight = numpy.where(weights == numpy.amax(weights))
     j = matrix[a, maxweight]
