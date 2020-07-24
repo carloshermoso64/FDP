@@ -1,10 +1,8 @@
 # Filename: VIKOR_method.py
 # Author: Carlos Hermoso
 # References: J.R. San Cristóbal, Papathanasiou, J. & Ploskas, N.
-
-
+import numpy
 from numpy import *
-
 import scipy.stats as ss
 
 
@@ -61,6 +59,11 @@ def vikor_ranking(matrix, min_max_criteria, weights):
     s, r = S_and_R(matrix,best_worst_f(matrix,min_max_criteria), weights)
     q = Q(s, r, len(weights))
     rank = ss.rankdata(-1*q)
+    rank = tie_brake(rank, weights, matrix) #look for alternatives with same value of q
+    return rank, q
+
+def tie_brake(rank, weights, matrix):
+
     result = []
     indx = []
     for i,item in enumerate(rank):
@@ -83,15 +86,22 @@ def vikor_ranking(matrix, min_max_criteria, weights):
                 rank[best] = rank[best]+0.5
                 rank[worst] = rank[worst]-0.5
             j = j+1
+    return rank
 
 
 
-    return rank, q, result, indx
 
 
 def comparar(matrix, a, b, weights):
-    i = matrix[a][maxpos]
-    best = 3
-    worst = 11
+
+    maxweight = numpy.where(weights == numpy.amax(weights))
+    j = matrix[a, maxweight]
+    k = matrix[b, maxweight]
+    if j >= k:
+        best = a
+        worst = b
+    else:
+        best = b
+        worst = a
     return best,worst
 
