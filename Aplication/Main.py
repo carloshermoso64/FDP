@@ -6,6 +6,7 @@
 
 # performances of the alternatives
 from Optimization.VIKOR_method import *
+from Search_Engine.Flight_router import *
 
 x = array([[5000, 937, 1, 2350, 20, 1.470, 1929936],
           [10000, 937, 1, 2350, 20, 1.470, 3216560],
@@ -29,6 +30,18 @@ w = array([0.32, 0.09, 0.03, 0.12, 0.13, 0.04, 0.27])
 crit_max_min = array(['max', 'min', 'min', 'max', 'max', 'min', 'max'])
 
 
-n = vikor_ranking(x,crit_max_min,w)
+#n = vikor_ranking(x,crit_max_min,w)
 
-print (n)
+xx = flight_search()
+yy = array(['min', 'max'])
+ww = array([0.9, 0.1])
+
+n = vikor_ranking(xx, yy, ww)
+
+
+xxx = array([[2],[3],[3],[4],[1],[6]])
+yyy = array(['max'])
+www = array([1])
+
+nn = vikor_ranking(xxx,yyy,www)
+print(n)
