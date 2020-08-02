@@ -7,10 +7,10 @@ from numpy import *
 def flight_search():
 
     origin = "BCN-sky"
-    destination = "JFK-sky"
-    outbound_date = "2020-08-01"
-    inbound_date = "2020-08-03"
-    url = "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browseroutes/v1.0/US/USD/en-US/"+ origin +"/"+ destination +"/"+ outbound_date
+    destination = "AMS-sky"
+    outbound_date = "2020-09-02"
+    inbound_date = "2020-09-16"
+    url = "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browseroutes/v1.0/ES/EUR/es-ES/"+ origin +"/"+ destination +"/"+ outbound_date
 
     querystring = {"inboundpartialdate": inbound_date}
 
@@ -23,11 +23,22 @@ def flight_search():
     json_data = json.loads(response.text)
     carriers = json_data["Carriers"]
     quotes = json_data["Quotes"]
-    # print(json.dumps(json_data,indent=4,sort_keys=True))
+    print(json.dumps(json_data,indent=4,sort_keys=True))
 
     i=0
     carrierId = []
-    MinPrice = ones((len(quotes),2))
+    MinPrice = ones((len(quotes),3))
+    DepartureDate = []
+    DepartureDay = []
+    DepartureMonth = []
+    DepartureYear = []
+   # print (quotes[i]['OutboundLeg']['DepartureDate'])
+
+    out_date = outbound_date.split("-")
+    out_year = out_date[0]
+    out_month = out_date[1]
+    out_day = out_date[2]
+
 
 
        # carrierId.append(carriers[i]['CarrierId'])
@@ -35,9 +46,33 @@ def flight_search():
 
 
     for i in range(len(quotes)):
+
         MinPrice[i,0]=quotes[i]['MinPrice']
+
+        date = quotes[i]['OutboundLeg']['DepartureDate']
+        x = date.split("-")
+        year = x[0]
+        month = x[1]
+        day = x[2].split("T")
+        day = day[0]
+        DepartureDay.append(day)
+        DepartureMonth.append(month)
+        DepartureYear.append(year)
+
+       # print(day)
+
+        delta_days = abs(int(day) - int(out_day))
+
+        MinPrice[i,2]=delta_days
+
+    print (MinPrice)
+
+
+
     #print (quotes[1]['OutboundLeg']['CarrierIds'][0])
-    print(MinPrice)
+
+
+
 
     return MinPrice
 

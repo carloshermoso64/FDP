@@ -33,8 +33,8 @@ crit_max_min = array(['max', 'min', 'min', 'max', 'max', 'min', 'max'])
 #n = vikor_ranking(x,crit_max_min,w)
 
 xx = flight_search()
-yy = array(['min', 'max'])
-ww = array([0.9, 0.1])
+yy = array(['min', 'max', 'min'])
+ww = array([0.1, 0.1, 0.8])
 
 n = vikor_ranking(xx, yy, ww)
 
@@ -43,5 +43,15 @@ xxx = array([[2],[3],[3],[4],[1],[6]])
 yyy = array(['max'])
 www = array([1])
 
-nn = vikor_ranking(xxx,yyy,www)
+#nn = vikor_ranking(xxx,yyy,www)
 print(n)
+
+
+
+#crit = array(['min', 'max','min', 'max','min', 'max','min', 'max'])
+
+#weigth = array([0.32, 0.09, 0.03, 0.12, 0.13, 0.04, 0.25, 0.02])
+
+#nnnn = vikor_ranking(Matrix,crit,weigth)
+
+#print(nnnn)

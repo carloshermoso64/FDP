@@ -20,10 +20,19 @@ def best_worst_f(matrix, min_max_criteria, weights):
             f[i, 0] = matrix.min(0)[i]
             f[i, 1] = matrix.max(0)[i]
 
+    equalcolums = []
+
+    for i in range(min_max_criteria.shape[0]):
         if f[i, 0] == f[i, 1]:
-            matrix = np.delete(matrix, i, axis=1)
-            weights = np.delete(weights, i)
-            min_max_criteria = np.delete(min_max_criteria, i)
+            equalcolums.append(i)
+    i = 0
+    while i < len(equalcolums):
+        column = equalcolums[i]
+        matrix = np.delete(matrix, column, axis=1)
+        weights = np.delete(weights, column)
+        min_max_criteria = np.delete(min_max_criteria, column)
+        f = np.delete(f,column,axis=0)
+        i = i + 1
 
     return f, matrix, weights, min_max_criteria
 
