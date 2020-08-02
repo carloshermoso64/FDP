@@ -1,6 +1,7 @@
 # Filename: VIKOR_method.py
 # Author: Carlos Hermoso
 # References: J.R. San Cristóbal, Papathanasiou, J. & Ploskas, N.
+
 import numpy as np
 from numpy import *
 import scipy.stats as ss
