@@ -5,8 +5,8 @@ from Optimization.VIKOR_method import *
 from Search_Engine.Flight_router import *
 
 origin = "BCN-sky"
-destination = "AMS-sky"
-outbound_date = "2020-09-02"
+destination = "VLC-sky"
+outbound_date = "2020-09-17"
 inbound_date = "2020-09-16"
 
 #First column: Price of trip

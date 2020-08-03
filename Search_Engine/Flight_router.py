@@ -5,7 +5,7 @@ from numpy import *
 
 
 
-def API_SkyScanner(origin,destination,outbound_date,inbound_date):
+def API_SkyScanner_flight_search(origin,destination,outbound_date,inbound_date):
 
     url = "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browseroutes/v1.0/ES/EUR/es-ES/"+ origin +"/"+ destination +"/"+ outbound_date
 
@@ -21,6 +21,27 @@ def API_SkyScanner(origin,destination,outbound_date,inbound_date):
     print(json.dumps(json_data, indent=4, sort_keys=True))
 
     return json_data
+
+def API_SkyScanner_IATA_code(city):
+
+    url = "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/autosuggest/v1.0/ES/EUR/es-ES/"
+
+    querystring = {"query": city}
+
+    headers = {
+        'x-rapidapi-host': "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
+        'x-rapidapi-key': ""
+    }
+
+    response = requests.request("GET", url, headers=headers, params=querystring)
+    json_data = json.loads(response.text)
+
+    places = json_data["Places"]
+    placeId = places[0]["PlaceId"]
+    placeId_split = placeId.split("-")
+    IATA_code = placeId_split[0]
+
+    return IATA_code
 
 def add_data_to_matrix(json_data,outbound_date):
 
@@ -61,8 +82,9 @@ def add_data_to_matrix(json_data,outbound_date):
 
 def flight_search(origin,destination,outbound_date,inbound_date):
 
-    SkyScanner_data = API_SkyScanner(origin,destination,outbound_date,inbound_date)
+    SkyScanner_data = API_SkyScanner_flight_search(origin,destination,outbound_date,inbound_date)
     Matrix = add_data_to_matrix(SkyScanner_data,outbound_date)
 
     return Matrix
+
 
